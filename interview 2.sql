@@ -116,4 +116,165 @@ DELETE FROM  emp_details where emp_id =109;
 
 show databases like "%p";
 show databases like "e_%";
-SELECT USER();
+
+-- inbulit functions 
+select count(*) from emp_details;
+
+-- using filtering 
+select count(*) from emp_details where emp_id in(101,102,103);
+
+-- avg
+select avg(salary) from emp_details where emp_id not in ("HR manager" ,"Data Analyst");
+
+select count(*) as count ,avg(salary) as avgerage from emp_details where emp_id < 106 and emp_id > 100;
+
+-- sum 
+select sum(salary) from emp_details where job_desc in ("HR manager" ,"Data Analyst"); 
+
+select sum(emp_id) from emp_details where emp_id like "10%"; 
+
+-- max 
+select max(salary) as maximumsalary from emp_details; 
+
+select max(emp_name) as maxcharstr from emp_details;
+
+-- based on the ascii values
+-- min  
+select min(salary) as minsalary from emp_details; 
+
+select min(emp_name) as minchar from emp_details;
+
+-- standard deviation
+select stddev(salary) from emp_details;
+
+-- variance
+select variance(salary) from emp_details; 
+
+-- floor ,round ,ceil
+select floor(salary) from emp_details where emp_id = 101; 
+-- rounds off the number if 30.12 : 30 if it 30.98 : 30
+
+select round(salary) from emp_details where emp_id = 102;
+-- rounds of the number based on decimal value
+
+select ceil(salary) from emp_details where emp_id = 102;
+-- rounds the number wther greater then or equl to not less
+
+-- string Functions
+
+select * from emp_details;
+
+-- ucase lcase
+
+select ucase(emp_name) as emp_name from emp_details;   
+
+select lcase(emp_name) as emp_name from emp_details;
+
+-- using filtering ucase lcase in not in
+
+select ucase(emp_name) as emp_name from emp_details where emp_id =102;
+select lcase(emp_name) as emp_name from emp_details where emp_name  like ("%o%");
+select lcase(emp_name) as emp_name from emp_details where emp_name  in ("john");
+select lcase(emp_name) as emp_name from emp_details where emp_name  not in ("john");
+
+-- char count
+select emp_name, character_length(emp_name) as emp_len,ucase(emp_name) as caps from emp_details;
+ 
+-- concat 
+select emp_name,concat("emp  ",emp_name) as concatstr from emp_details; 
+select emp_name,concat("RS.",salary,format(salary,0)) from emp_details limit 3;
+
+-- trim
+select ltrim(emp_name) as lefttrim from emp_details; 
+select rtrim(emp_name) as lefttrim from emp_details; 
+
+-- left and right
+select left(emp_name,4) as emp_name from emp_details; 
+select right(emp_name,4) as emp_name from emp_details;
+
+-- replace
+select replace(emp_name,"venky","kiruthi") from emp_details; 
+-- substr
+select instr(emp_name,"k") from emp_details where emp_name in("kiruthi");   
+
+
+-- date 
+alter table emp_details add column hire_date date ; 
+
+update emp_details set hire_date = current_timestamp();
+
+select * from emp_details;
+
+select now();
+
+ select current_timestamp(); 
+
+select date(curdate());
+
+select day(curdate());
+
+select current_date();
+
+select Date(now());
+
+select date_format(current_date(),"%d/%m/%y") as Date;
+
+select datediff(curdate(),"2020-10-10");
+
+select day( date_format(current_date(),"%D/%M/%Y") )as Date;
+
+select dayname( curdate());
+
+select month(curdate());
+
+select day(curdate());
+
+select year(current_date());
+
+select date_add(curdate(), interval 1 day) as "dateif" ;
+
+select date_add(curdate(), interval 1 month) as "dateif" ;
+
+select date_add(curdate(), interval 1 year) as "dateif" ;
+
+select date_add(curdate(), interval 1 week) as "dateif" ;
+
+update emp_details set job_desc ="HR" where emp_id between 101 and 103;
+
+
+update emp_details set job_desc ="manager" where emp_id between 104 and 106;
+
+select * from emp_details;
+
+-- groupby
+select job_desc , max(salary) as maximumsalary
+from emp_details group by job_desc;
+
+
+select job_desc , avg(salary) as avgsalary
+from emp_details group by job_desc;
+
+select job_desc, avg(salary) as count_emp 
+from emp_details where emp_id in("101","102") group by job_desc;
+
+select  job_desc,concat("RS." ,avg(salary)) as emp_avg_salary from
+emp_details group by job_desc order by (case job_desc 
+when "Data Scientist" then 1
+else 100 end);
+
+select job_desc,min(salary) from emp_details
+group by job_desc order by (case job_desc
+when "HR" then 1
+when "Product Manager" then 2
+else 100 end
+);
+
+select job_desc,count(salary) from emp_details 
+where salary>50000 group by job_desc having count(salary)>1 order by 
+count(salary) desc 
+;
+
+select job_desc,min(salary) as salary from emp_details
+group by job_desc having min(salary)>50000
+order by min(salary) desc
+;
